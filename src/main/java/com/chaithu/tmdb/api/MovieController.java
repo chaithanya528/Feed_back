@@ -16,6 +16,7 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Movie> getMovie(@PathVariable Long id){
         Movie movie = movieService.read(id);
@@ -42,5 +43,11 @@ public class MovieController {
 
         movieService.delete(id);
         log.info("Deleted movie with id: {}", id);
+    }
+
+    @DeleteMapping("/{movie}")
+    public void deleteMovie(@RequestBody Movie  movie){
+      //  movieService.delete(movie);
+        log.info("delete movie with name: {}", movie );
     }
 }
