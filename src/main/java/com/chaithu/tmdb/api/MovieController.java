@@ -45,9 +45,5 @@ public class MovieController {
         log.info("Deleted movie with id: {}", id);
     }
 
-    @DeleteMapping("/{movie}")
-    public void deleteMovie(@RequestBody Movie  movie){
-      //  movieService.delete(movie);
-        log.info("delete movie with name: {}", movie );
-    }
+
 }
