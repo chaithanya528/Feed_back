@@ -1,5 +1,7 @@
 package com.chaithu.tmdb.service;
 
+import com.chaithu.tmdb.exception.InvaildDataException;
+import com.chaithu.tmdb.exception.NotFoundException;
 import com.chaithu.tmdb.model.Movie;
 import com.chaithu.tmdb.repo.MovieRepository;
 import jakarta.transaction.Transactional;
@@ -18,19 +20,19 @@ public class MovieService {
     public Movie create(Movie movie){
 
         if (movie == null){
-            throw new RuntimeException("Invalid movie");
+            throw new InvaildDataException("Invalid movie null");
         }
         return movieRepository.save(movie);
     }
 
     public Movie read(Long id){
         return movieRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("movie not found"));
+        .orElseThrow(() -> new NotFoundException("movie not found with id : " +id));
     }
 
     public void update(Long id, Movie update){
         if (update == null || id == null){     // ||movie.getId() == null
-            throw new RuntimeException("Invalid movie");
+            throw new InvaildDataException("Invalid movie: null");
         }
 
         // check if exit
@@ -42,7 +44,7 @@ public class MovieService {
             movie.setActors(update.getActors());
             movieRepository.save(movie);
         }else {
-            throw new RuntimeException("Movie not found");
+            throw new NotFoundException("movie not found with id : " +id);
         }
     }
 
@@ -50,7 +52,7 @@ public class MovieService {
         if(movieRepository.existsById(id)){
             movieRepository.deleteById(id);
         } else {
-            throw new RuntimeException("movie not found");
+            throw new NotFoundException("movie not found with id : " +id);
         }
     }
 }
